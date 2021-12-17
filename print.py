@@ -14,7 +14,7 @@ EPD_HEIGHT = 128
 
 def parse_args():
     args = argparse.ArgumentParser(
-        description='prints an image on your cat thermal printer')
+        description='Sends an image to the EPD BLE service running in the ATC_TLSR_Paper Hanshow open source firmware.')
     args.add_argument('filename', type=str)
     args.add_argument('--log-level', type=str,
                       choices=['debug', 'info', 'warn', 'error'], default='info')
@@ -29,7 +29,7 @@ def parse_args():
 
 
 def make_logger(log_level):
-    logger = logging.getLogger('catprinter')
+    logger = logging.getLogger('pricetag-printer')
     logger.setLevel(log_level)
     h = logging.StreamHandler(sys.stdout)
     h.setLevel(log_level)
