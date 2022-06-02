@@ -30,7 +30,8 @@ def read_img(
         print_width,
         logger,
         img_binarization_algo,
-        show_preview):
+        show_preview,
+        invert):
     im = cv2.imread(filename, cv2.IMREAD_GRAYSCALE)
     height = im.shape[0]
     width = im.shape[1]
@@ -42,14 +43,18 @@ def read_img(
         logger.info(f'⏳ Applying Floyd-Steinberg dithering to image...')
         floyd_steinberg_dither(resized)
         logger.info(f'✅ Done.')
-        resized = resized > 127
+        threshold = 127
     elif img_binarization_algo == 'mean-threshold':
-        resized = resized > resized.mean()
+        threshold = resized.mean()
     else:
         logger.error(
             f'🛑 Unknown image binarization algorithm: {img_binarization_algo}')
         raise RuntimeError(
             f'unknown image binarization algorithm: {img_binarization_algo}')
+    if invert:
+        resized = resized <= threshold
+    else:
+        resized = resized > threshold
 
     if show_preview:
         # Convert from our boolean representation to float.
