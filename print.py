@@ -25,6 +25,8 @@ def parse_args():
                       help='If set, displays the final image and asks the user for confirmation before printing.')
     args.add_argument('--devicename', type=str, default='GT01',
                       help='Specify the Bluetooth device name to search for. Default value is GT01.')
+    args.add_argument('--img-invert', action='store_true',
+                      help='Invert resulting pixels.')
     return args.parse_args()
 
 
@@ -49,7 +51,7 @@ def main():
         return
 
     bin_img = read_img(args.filename, EPD_HEIGHT,
-                       logger, args.img_binarization_algo, args.show_preview)
+                       logger, args.img_binarization_algo, args.show_preview, args.img_invert)
     if bin_img is None:
         logger.info(f'🛑 No image generated. Exiting.')
         return
